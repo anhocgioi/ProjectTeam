@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Data_Kitsume
   m_EditorClassIdentifier: 
   charName: Kitsune
-  fullBodySprite: {fileID: 541531273, guid: bff996f9b83d96f44a2239a005ae0db7, type: 3}
+  fullBodySprite: {fileID: 1464005476, guid: 321fd9514d98ae24a85a192e6e5269e6, type: 3}
   icon: {fileID: 0}
-  prefab: {fileID: 0}
+  characterPrefab: {fileID: 2125540284736338043, guid: 4b5bc28f5ba31b945ae27d032bcd9641, type: 3}

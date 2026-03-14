@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Data_Tengu
   m_EditorClassIdentifier: 
   charName: Tengu
-  fullBodySprite: {fileID: -854811871, guid: 321fd9514d98ae24a85a192e6e5269e6, type: 3}
+  fullBodySprite: {fileID: 541531273, guid: bff996f9b83d96f44a2239a005ae0db7, type: 3}
   icon: {fileID: 0}
-  prefab: {fileID: 0}
+  characterPrefab: {fileID: 8838035233916965127, guid: 0117b46f9af4a3a48aea75cc9e97c13d, type: 3}
