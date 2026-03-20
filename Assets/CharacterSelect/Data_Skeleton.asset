@@ -15,4 +15,4 @@ MonoBehaviour:
   charName: Skeleton
   fullBodySprite: {fileID: 246376662, guid: 3d257ecb03d98b741b9524db852b3ad8, type: 3}
   icon: {fileID: 0}
-  characterPrefab: {fileID: 0}
+  characterPrefab: {fileID: 2311687599403121022, guid: 684f7d7b365dae84cbaec0f9ad23d494, type: 3}

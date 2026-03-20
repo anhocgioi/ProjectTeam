@@ -15,4 +15,4 @@ MonoBehaviour:
   charName: Gordon
   fullBodySprite: {fileID: -1777545227, guid: f50e88dd70fe485489aeb9bfe13e2e7d, type: 3}
   icon: {fileID: 0}
-  characterPrefab: {fileID: 0}
+  characterPrefab: {fileID: 3104015672231557336, guid: 70aec8294d08bd14c9429d0d7a4db190, type: 3}

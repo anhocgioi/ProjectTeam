@@ -15,4 +15,4 @@ MonoBehaviour:
   charName: Minataur
   fullBodySprite: {fileID: -1967022966, guid: f177585fbbfee6c43be543b762a095cc, type: 3}
   icon: {fileID: 0}
-  characterPrefab: {fileID: 0}
+  characterPrefab: {fileID: 5968406649412361395, guid: 5a258cc42b9602842b285c48cd274502, type: 3}

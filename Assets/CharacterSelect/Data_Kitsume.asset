@@ -15,4 +15,4 @@ MonoBehaviour:
   charName: Kitsune
   fullBodySprite: {fileID: 1464005476, guid: 321fd9514d98ae24a85a192e6e5269e6, type: 3}
   icon: {fileID: 0}
-  characterPrefab: {fileID: 2125540284736338043, guid: 4b5bc28f5ba31b945ae27d032bcd9641, type: 3}
+  characterPrefab: {fileID: 970952100841965901, guid: 4b5bc28f5ba31b945ae27d032bcd9641, type: 3}
