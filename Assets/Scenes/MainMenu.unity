@@ -498,6 +498,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ce23cfa434e4774493fda90aebbca31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  menuBgmClip: {fileID: 8300000, guid: 970c488ad8e066649b67c3dd98f1fa7e, type: 3}
+  buttonClickClip: {fileID: 8300000, guid: 29bde6326b4c34ad8a12da475f79b50a, type: 3}
+  buttonHoverClip: {fileID: 0}
+  playBgmOnStart: 1
+  loopBgm: 1
+  sceneSwitchDelaySeconds: 0.08
+  hoverCooldownSeconds: 0.1
 --- !u!4 &593604721
 Transform:
   m_ObjectHideFlags: 0
@@ -539,8 +546,8 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 645582977}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -643.92957}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -549,7 +556,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -62.872818, y: -100}
+  m_AnchoredPosition: {x: -62.873, y: -105}
   m_SizeDelta: {x: 635.7211, y: 81.2878}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &645582979
@@ -595,7 +602,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 645582980}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 593604720}
+        m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
+        m_MethodName: OpenSettings
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &645582980
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -947,7 +966,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 593604720}
         m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
-        m_MethodName: OpenCharacterSelect
+        m_MethodName: OpenMultiPlayer
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1077,7 +1096,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1818661601}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 593604720}
+        m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
+        m_MethodName: OpenHowToPlay
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1818661601
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1332,7 +1363,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1897183192}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 593604720}
+        m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
+        m_MethodName: ExitGame
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1897183192
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1764,7 +1807,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2075142430}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 593604720}
+        m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
+        m_MethodName: OpenSinglePlayer
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2075142430
 MonoBehaviour:
   m_ObjectHideFlags: 0

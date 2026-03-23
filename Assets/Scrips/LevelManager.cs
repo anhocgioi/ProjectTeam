@@ -3,54 +3,65 @@ using UnityEngine;
 public class LevelManager : MonoBehaviour
 {
     [Header("Vị trí xuất hiện")]
-    public Transform spawnPointP1; // Kéo Object Pos_P1 vào đây
-    public Transform spawnPointP2; // Kéo Object Pos_P2 vào đây
+    public Transform spawnPointP1;
+    public Transform spawnPointP2;
 
     void Start()
     {
-        // Luôn kiểm tra GameDataManager để tránh lỗi Null
-        if (GameDataManager.instance != null)
-        {
-            SpawnCharacters();
-        }
-        else
-        {
-            Debug.LogError("LỖI: Không tìm thấy GameDataManager! Bạn phải Play từ màn hình chọn nhân vật.");
-        }
+        if (GameDataManager.instance == null) return;
+
+        SpawnCharacters();
     }
 
     void SpawnCharacters()
     {
-        // 1. Lấy dữ liệu từ "xe chở dữ liệu"
-        CharacterData dataP1 = GameDataManager.instance.selectedP1;
-        CharacterData dataP2 = GameDataManager.instance.selectedP2;
+        var data = GameDataManager.instance;
 
-        // 2. Tạo và cấu hình Player 1
-        if (dataP1 != null && dataP1.characterPrefab != null)
+        // ===================== P1 =====================
+        if (data.selectedP1 != null)
         {
-            GameObject p1 = Instantiate(dataP1.characterPrefab, spawnPointP1.position, Quaternion.identity);
-            p1.name = "P1_" + dataP1.charName;
+            GameObject p1 = Instantiate(
+                data.selectedP1.characterPrefab,
+                spawnPointP1.position,
+                Quaternion.identity
+            );
 
-            // TỰ ĐỘNG GÁN ID = 1 CHO P1
-            PlayerMove moveScriptP1 = p1.GetComponent<PlayerMove>();
-            if (moveScriptP1 != null)
-            {
-                moveScriptP1.playerID = 1;
-            }
+            p1.name = "Player_1";
         }
 
-        // 3. Tạo và cấu hình Player 2
-        if (dataP2 != null && dataP2.characterPrefab != null)
+        // ===================== P2 =====================
+        if (data.selectedP2 != null)
         {
-            // Quaternion.Euler(0, 180, 0) giúp P2 quay mặt sang trái nhìn P1
-            GameObject p2 = Instantiate(dataP2.characterPrefab, spawnPointP2.position, Quaternion.Euler(0, 180, 0));
-            p2.name = "P2_" + dataP2.charName;
+            GameObject p2 = Instantiate(
+                data.selectedP2.characterPrefab,
+                spawnPointP2.position,
+                Quaternion.identity
+            );
 
-            // TỰ ĐỘNG GÁN ID = 2 CHO P2
-            PlayerMove moveScriptP2 = p2.GetComponent<PlayerMove>();
-            if (moveScriptP2 != null)
+            p2.name = "Player_2";
+
+            // ===================== 🔥 SINGLE PLAYER → BOT =====================
+            if (data.isSinglePlayer)
             {
-                moveScriptP2.playerID = 2; // Dòng này giúp P2 dùng phím mũi tên
+                // ❌ TẮT PLAYER CONTROL
+                PlayerMove move = p2.GetComponent<PlayerMove>();
+                if (move != null)
+                {
+                    move.enabled = false;
+                }
+
+                // ❌ TẮT PHYSICS CHUYỂN ĐỘNG NGAY KHI SPAWN
+                Rigidbody2D rb = p2.GetComponent<Rigidbody2D>();
+                if (rb != null)
+                {
+                    rb.velocity = Vector2.zero;
+                }
+
+                // ✅ THÊM BOT AI (KHÔNG ADD TRÙNG)
+                if (!p2.TryGetComponent<BotAI>(out _))
+                {
+                    p2.AddComponent<BotAI>();
+                }
             }
         }
     }

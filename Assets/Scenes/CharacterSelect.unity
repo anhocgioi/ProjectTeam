@@ -131,7 +131,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 123559491}
-  - component: {fileID: 123559490}
+  - component: {fileID: 123559492}
   m_Layer: 0
   m_Name: GameDataManager
   m_TagString: Untagged
@@ -139,20 +139,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &123559490
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 123559489}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c81bcd53689508c40b85bf530c2898be, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  selectedP1: {fileID: 0}
-  selectedP2: {fileID: 0}
 --- !u!4 &123559491
 Transform:
   m_ObjectHideFlags: 0
@@ -168,6 +154,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &123559492
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 123559489}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e26eb8e70dfee154d9b843422e2b3bb6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  selectedP1: {fileID: 0}
+  selectedP2: {fileID: 0}
+  isSinglePlayer: 1
 --- !u!1 &138047932
 GameObject:
   m_ObjectHideFlags: 0
@@ -212,7 +213,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 138047932}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
@@ -630,7 +631,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 812815034}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
@@ -804,16 +805,9 @@ MonoBehaviour:
   - {fileID: 1988131650}
   - {fileID: 2094888554}
   - {fileID: 1758943529}
-  p1Color: {r: 0.022027409, g: 0.035832416, b: 0.9339623, a: 1}
-  p2Color: {r: 1, g: 0.0047169924, b: 0.08484452, a: 1}
-  selectedBorderColor: {r: 1, g: 0.85, b: 0.2, a: 1}
-  readyBorderColor: {r: 0.2, g: 0.9, b: 0.35, a: 1}
-  nameOutlineWidth: 0.2
-  nameOutlineColor: {r: 0.05, g: 0.05, b: 0.05, a: 1}
   readyTextP1: {fileID: 0}
   readyTextP2: {fileID: 0}
   titleText: {fileID: 0}
-  borderPulseEffect: 1
 --- !u!4 &919105276
 Transform:
   m_ObjectHideFlags: 0
