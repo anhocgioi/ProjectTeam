@@ -29,7 +29,7 @@ namespace CitrioN.Common
     {
       GlobalEventHandler.InvokeEvent("OnApplicationQuit");
       isQuitting = true;
-      ConsoleLogger.Log("Quitting Application".Colorize(Color.yellow), LogType.EditorAndDebug);
+      //ConsoleLogger.Log("Quitting Application".Colorize(Color.yellow), LogType.EditorAndDebug);
     }
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]

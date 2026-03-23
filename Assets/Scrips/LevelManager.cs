@@ -8,7 +8,12 @@ public class LevelManager : MonoBehaviour
 
     void Start()
     {
-        if (GameDataManager.instance == null) return;
+        // Nếu chạy thẳng từ Scene mà không qua Menu, báo lỗi để dễ sửa
+        if (GameDataManager.instance == null)
+        {
+            Debug.LogError("⚠️ GameDataManager null! Hãy chạy game từ màn hình Menu.");
+            return;
+        }
 
         SpawnCharacters();
     }
@@ -18,7 +23,7 @@ public class LevelManager : MonoBehaviour
         var data = GameDataManager.instance;
 
         // ===================== P1 =====================
-        if (data.selectedP1 != null)
+        if (data.selectedP1 != null && data.selectedP1.characterPrefab != null)
         {
             GameObject p1 = Instantiate(
                 data.selectedP1.characterPrefab,
@@ -27,40 +32,59 @@ public class LevelManager : MonoBehaviour
             );
 
             p1.name = "Player_1";
+            p1.tag = "Player"; // Đảm bảo gắn tag để AI tìm thấy
+
+            // 🔥 QUAN TRỌNG: Ép ID là 1 cho P1
+            PlayerMove moveP1 = p1.GetComponent<PlayerMove>();
+            if (moveP1 != null)
+            {
+                moveP1.playerID = 1;
+                moveP1.enabled = true; // Luôn bật cho P1
+            }
         }
 
         // ===================== P2 =====================
-        if (data.selectedP2 != null)
+        if (data.selectedP2 != null && data.selectedP2.characterPrefab != null)
         {
+            // Xoay mặt P2 sang trái khi xuất hiện (thường P2 đứng bên phải)
+            Quaternion p2Rotation = Quaternion.Euler(0, 180, 0);
+
             GameObject p2 = Instantiate(
                 data.selectedP2.characterPrefab,
                 spawnPointP2.position,
-                Quaternion.identity
+                p2Rotation
             );
 
             p2.name = "Player_2";
+            PlayerMove moveP2 = p2.GetComponent<PlayerMove>();
 
-            // ===================== 🔥 SINGLE PLAYER → BOT =====================
-            if (data.isSinglePlayer)
+            if (moveP2 != null)
             {
-                // ❌ TẮT PLAYER CONTROL
-                PlayerMove move = p2.GetComponent<PlayerMove>();
-                if (move != null)
-                {
-                    move.enabled = false;
-                }
+                // 🔥 QUAN TRỌNG: Ép ID là 2 cho P2
+                moveP2.playerID = 2;
 
-                // ❌ TẮT PHYSICS CHUYỂN ĐỘNG NGAY KHI SPAWN
-                Rigidbody2D rb = p2.GetComponent<Rigidbody2D>();
-                if (rb != null)
+                // ===================== 🔥 SINGLE PLAYER → BOT =====================
+                if (data.isSinglePlayer)
                 {
-                    rb.velocity = Vector2.zero;
-                }
+                    // ❌ Tắt script PlayerMove của P2 để tránh nhận phím bấm
+                    moveP2.enabled = false;
 
-                // ✅ THÊM BOT AI (KHÔNG ADD TRÙNG)
-                if (!p2.TryGetComponent<BotAI>(out _))
+                    // ❌ Reset vật lý
+                    Rigidbody2D rb = p2.GetComponent<Rigidbody2D>();
+                    if (rb != null) rb.velocity = Vector2.zero;
+
+                    // ✅ Thêm Bot AI
+                    if (!p2.TryGetComponent<BotAI>(out _))
+                    {
+                        p2.AddComponent<BotAI>();
+                    }
+                    Debug.Log("P2 Spawned as BOT AI");
+                }
+                else
                 {
-                    p2.AddComponent<BotAI>();
+                    // ✅ Nếu là MultiPlayer, đảm bảo PlayerMove của P2 được bật
+                    moveP2.enabled = true;
+                    Debug.Log("P2 Spawned as PLAYER 2 (Arrows + Num1)");
                 }
             }
         }

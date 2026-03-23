@@ -72,13 +72,10 @@ public class MainMenuManager : MonoBehaviour
     public void PlayHover()
     {
         if (isSwitchingScene) return;
-
         AudioClip clip = buttonHoverClip != null ? buttonHoverClip : buttonClickClip;
         if (clip == null) return;
-
         if (Time.unscaledTime - lastHoverPlayTime < hoverCooldownSeconds) return;
         lastHoverPlayTime = Time.unscaledTime;
-
         sfxSource.PlayOneShot(clip, sfxVolume);
     }
 
@@ -96,7 +93,6 @@ public class MainMenuManager : MonoBehaviour
     private void AddGlobalButtonClickSfx()
     {
         if (buttonClickClip == null) return;
-
         Button[] buttons = FindObjectsOfType<Button>(true);
         foreach (Button b in buttons)
         {
@@ -108,11 +104,11 @@ public class MainMenuManager : MonoBehaviour
     // ================= SINGLE PLAYER =================
     public void OpenSinglePlayer()
     {
-        PlayClick();
-
+        // Gán chế độ 1 người chơi vào GameDataManager trước khi load cảnh
         if (GameDataManager.instance != null)
         {
             GameDataManager.instance.isSinglePlayer = true;
+            Debug.Log("Chế độ: Đấu với máy (Single Player)");
         }
 
         LoadSceneSafe("CharacterSelect");
@@ -121,67 +117,56 @@ public class MainMenuManager : MonoBehaviour
     // ================= MULTIPLAYER =================
     public void OpenMultiPlayer()
     {
-        PlayClick();
-
+        // Gán chế độ 2 người chơi vào GameDataManager
         if (GameDataManager.instance != null)
         {
             GameDataManager.instance.isSinglePlayer = false;
+            Debug.Log("Chế độ: 2 Người chơi (Multiplayer)");
         }
 
         LoadSceneSafe("CharacterSelect");
     }
 
-    // ================= SETTINGS =================
     public void OpenSettings()
     {
-        PlayClick();
         LoadSceneSafe("Settings");
     }
 
-    // ================= HOW TO PLAY =================
     public void OpenHowToPlay()
     {
-        PlayClick();
         LoadSceneSafe("HowToPlay");
     }
 
-    // ================= EXIT =================
     public void ExitGame()
     {
-        PlayClick();
         StartCoroutine(QuitAfterDelay());
     }
 
-    // ================= LOAD SCENE =================
     private void LoadSceneSafe(string sceneName)
     {
         if (isSwitchingScene) return;
-
         isSwitchingScene = true;
+        PlayClick(); // Phát âm thanh click ngay khi bấm
         StartCoroutine(LoadSceneAfterDelay(sceneName));
     }
 
     private IEnumerator LoadSceneAfterDelay(string sceneName)
     {
         float waitTime = sceneSwitchDelaySeconds;
-
         if (buttonClickClip != null)
             waitTime = Mathf.Max(waitTime, buttonClickClip.length + 0.02f);
 
         yield return new WaitForSeconds(waitTime);
-
         SceneManager.LoadScene(sceneName);
     }
 
     private IEnumerator QuitAfterDelay()
     {
         float waitTime = sceneSwitchDelaySeconds;
-
         if (buttonClickClip != null)
             waitTime = Mathf.Max(waitTime, buttonClickClip.length + 0.02f);
 
         yield return new WaitForSeconds(waitTime);
-
         Application.Quit();
     }
 }

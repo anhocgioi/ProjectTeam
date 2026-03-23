@@ -168,7 +168,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   selectedP1: {fileID: 0}
   selectedP2: {fileID: 0}
-  isSinglePlayer: 1
+  isSinglePlayer: 0
 --- !u!1 &138047932
 GameObject:
   m_ObjectHideFlags: 0
@@ -805,9 +805,6 @@ MonoBehaviour:
   - {fileID: 1988131650}
   - {fileID: 2094888554}
   - {fileID: 1758943529}
-  readyTextP1: {fileID: 0}
-  readyTextP2: {fileID: 0}
-  titleText: {fileID: 0}
 --- !u!4 &919105276
 Transform:
   m_ObjectHideFlags: 0

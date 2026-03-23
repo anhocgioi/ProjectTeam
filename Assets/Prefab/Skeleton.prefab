@@ -114,7 +114,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!61 &705296421165162995
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -199,7 +199,6 @@ MonoBehaviour:
   attackSpeedMultiplier: 0.1
   comboResetTime: 0.6
   maxHealth: 100
-  currentHealth: 0
   attackPoint: {fileID: 0}
   attackRange: 0.5
   opponentLayer:
@@ -209,3 +208,5 @@ MonoBehaviour:
   slashObject: {fileID: 0}
   slashSpriteRenderer: {fileID: 0}
   slashSprites: []
+  isAttacking: 0
+  isHurt: 0

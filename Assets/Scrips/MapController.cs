@@ -1,28 +1,34 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+
 public class MapController : MonoBehaviour
 {
-    // Mảng chứa các GameObject của các Map
+    [Header("Giao diện hiển thị Map")]
+    // Mảng chứa các GameObject (ảnh hoặc bối cảnh) của các Map để ẩn/hiện
     public GameObject[] maps;
     private int index = 0;
 
+    [Header("Cấu hình Scene")]
+    // Tên các Scene tương ứng với từng Map (phải khớp 100% trong Build Settings)
+    public string[] sceneNames = { "Map1", "Map2", "Map3" };
+
     void Start()
     {
-        // Khi bắt đầu, chỉ hiển thị map đầu tiên
+        // Khi bắt đầu, hiển thị map đầu tiên
         UpdateMapDisplay();
     }
 
     public void NextMap()
     {
         index++;
-        if (index >= maps.Length) index = 0; // Quay lại đầu
+        if (index >= maps.Length) index = 0;
         UpdateMapDisplay();
     }
 
     public void PreviousMap()
     {
         index--;
-        if (index < 0) index = maps.Length - 1; // Nhảy tới cuối
+        if (index < 0) index = maps.Length - 1;
         UpdateMapDisplay();
     }
 
@@ -30,14 +36,28 @@ public class MapController : MonoBehaviour
     {
         for (int i = 0; i < maps.Length; i++)
         {
-            // Nếu i trùng với chỉ số hiện tại thì hiện, ngược lại thì ẩn
-            maps[i].SetActive(i == index);
+            if (maps[i] != null)
+                maps[i].SetActive(i == index);
         }
     }
+
     public void StartGame()
     {
-        // Tên scene trong mảng phải khớp 100% với tên file scene bạn đặt
-        string[] sceneNames = { "Map1", "Map2", "Map3" };
-        SceneManager.LoadScene(sceneNames[index]);
+        // 1. Lưu thông tin map đã chọn vào GameDataManager (nếu có)
+        if (GameDataManager.instance != null)
+        {
+            GameDataManager.instance.selectedMapName = sceneNames[index];
+            Debug.Log("Đã chọn Map: " + sceneNames[index]);
+        }
+
+        // 2. Chuyển đến Scene tương ứng
+        if (index < sceneNames.Length)
+        {
+            SceneManager.LoadScene(sceneNames[index]);
+        }
+        else
+        {
+            Debug.LogError("Chỉ số Index Map vượt quá số lượng Scene thiết lập!");
+        }
     }
 }

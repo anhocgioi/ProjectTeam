@@ -11,17 +11,21 @@ public class GameDataManager : MonoBehaviour
     [Header("Game Mode")]
     public bool isSinglePlayer = false;
 
-    void Awake()
-{
-    if (instance != null && instance != this)
-    {
-        Destroy(gameObject);
-        return;
-    }
+    [Header("Map Settings")]
+    // Lưu tên Scene của Map đã chọn (Mặc định là Map1)
+    public string selectedMapName = "Map1";
 
-    instance = this;
-    DontDestroyOnLoad(gameObject);
-}
+    void Awake()
+    {
+        if (instance != null && instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        instance = this;
+        DontDestroyOnLoad(gameObject);
+    }
 
     // ================= DEBUG =================
     public void DebugData()
@@ -30,6 +34,7 @@ public class GameDataManager : MonoBehaviour
         Debug.Log("P1: " + (selectedP1 != null ? selectedP1.name : "NULL"));
         Debug.Log("P2: " + (selectedP2 != null ? selectedP2.name : "NULL"));
         Debug.Log("Mode: " + (isSinglePlayer ? "Single" : "Multi"));
+        Debug.Log("Selected Map: " + selectedMapName);
     }
 
     // ================= RESET DATA =================
@@ -38,5 +43,6 @@ public class GameDataManager : MonoBehaviour
         selectedP1 = null;
         selectedP2 = null;
         isSinglePlayer = false;
+        selectedMapName = "Map1"; // Reset về map mặc định
     }
 }

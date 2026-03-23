@@ -139,7 +139,7 @@ public class CharacterSelectManager : MonoBehaviour
     // ================= LOAD SCENE =================
     void LoadMainGame()
     {
-        UnityEngine.SceneManagement.SceneManager.LoadScene("MainGame");
+        UnityEngine.SceneManagement.SceneManager.LoadScene("MapSelect");
     }
 
     // ================= UI =================
