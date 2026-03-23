@@ -203,4 +203,16 @@ public class PlayerMove : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(attackPoint.position, attackRange);
     }
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        // Kiểm tra xem vật chạm vào có script CharacterStats không
+        CharacterStats target = other.GetComponent<CharacterStats>();
+
+        // Nếu có script máu VÀ vật đó không phải là bản thân mình (tránh tự đánh mình)
+        if (target != null && other.gameObject != this.gameObject)
+        {
+            target.TakeDamage(10f); // Trừ 10 máu
+            Debug.Log("Đã đánh trúng: " + other.name);
+        }
+    }
 }

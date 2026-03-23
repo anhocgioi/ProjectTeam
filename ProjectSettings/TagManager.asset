@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Ground
   - Grounded
+  - Enermy
   layers:
   - Default
   - TransparentFX
