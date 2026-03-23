@@ -199,7 +199,6 @@ MonoBehaviour:
   speed: 7
   jumpForce: 12
   attackSpeedMultiplier: 0.1
-  comboResetTime: 0.6
   maxHealth: 100
   attackPoint: {fileID: 835435242718974498}
   attackRange: 2
@@ -207,10 +206,11 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   healthBar: {fileID: 0}
+  damageDelay: 0.15
+  attackDuration: 0.4
+  endScreen: {fileID: 0}
+  winText: {fileID: 0}
   isDead: 0
-  slashObject: {fileID: 0}
-  slashSpriteRenderer: {fileID: 0}
-  slashSprites: []
   isAttacking: 0
   isHurt: 0
 --- !u!114 &-4212115116608538191

@@ -1,92 +1,71 @@
 using UnityEngine;
+using System.Collections;
 
 public class PlayerMove : MonoBehaviour
 {
     [Header("Player Settings")]
-    public int playerID = 1; // 1 = P1, 2 = P2 (hoặc AI)
+    public int playerID = 1;
 
     [Header("Movement Settings")]
-    [SerializeField] private float speed = 7f;
-    [SerializeField] private float jumpForce = 12f;
-    [SerializeField] private float attackSpeedMultiplier = 0.1f;
-
-    [Header("Combo Settings")]
-    [SerializeField] private float comboResetTime = 0.6f;
+    [SerializeField] private float speed = 5f;
+    [SerializeField] private float jumpForce = 6f;
+    [SerializeField] private float attackSpeedMultiplier = 0.5f; // Tăng lên một chút để di chuyển mượt hơn khi đánh
 
     [Header("Combat & Health")]
     [SerializeField] private int maxHealth = 100;
     private int currentHealth;
     [SerializeField] private Transform attackPoint;
-    [SerializeField] private float attackRange = 0.5f;
+    [SerializeField] private float attackRange = 0.5f; // Nên để tầm 0.5 - 1.0 cho game 2D
     [SerializeField] private LayerMask opponentLayer;
-    [SerializeField] public HealthBar healthBar;
+    public HealthBar healthBar;
 
     public bool isDead = false;
-
-    [Header("Slash FX")]
-    [SerializeField] private GameObject slashObject;
-    [SerializeField] private SpriteRenderer slashSpriteRenderer;
-    [SerializeField] private Sprite[] slashSprites;
-
-    // Components
-    private Rigidbody2D body;
-    private Animator anim;
-
-    // State
     public bool isAttacking;
-    private bool grounded;
-    private int jumpCount;
-    private bool canAttack = true;
-    private int comboStep = 0;
-    private float lastAttackTime;
     public bool isHurt;
 
-    // AI only
-    private Transform opponent;
+    private Rigidbody2D body;
+    private Animator anim;
+    private bool grounded;
+    private bool canAttack = true;
+    private float originalScaleX;
 
     void Start()
     {
         body = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         currentHealth = maxHealth;
+        originalScaleX = Mathf.Abs(transform.localScale.x);
 
-        if (slashObject != null) slashObject.SetActive(false);
-
-        // Logic tìm đối thủ cho AI (giữ nguyên của bạn)
-        if (GameDataManager.instance != null && GameDataManager.instance.isSinglePlayer && playerID == 2)
+        // Tự động tìm HealthBar theo tên nếu chưa kéo thả
+        if (healthBar == null)
         {
-            GameObject playerObj = GameObject.FindWithTag("Player");
-            if (playerObj != null) opponent = playerObj.transform;
+            string hbName = (playerID == 1) ? "HealthBar_Player1" : "HealthBar_Player2";
+            GameObject hbObj = GameObject.Find(hbName);
+            if (hbObj != null) healthBar = hbObj.GetComponent<HealthBar>();
         }
+
         if (healthBar != null)
         {
             healthBar.SetMaxHealth(maxHealth);
+            healthBar.SetHealth(maxHealth);
         }
     }
 
     void Update()
     {
-        if (isDead || isHurt) return;
+        if (isDead) return;
 
-        // KIỂM TRA CHẾ ĐỘ CHƠI
-        bool isAI = (playerID == 2 && GameDataManager.instance?.isSinglePlayer == true);
-
-        if (isAI)
+        if (isHurt)
         {
-            AIControl();
-        }
-        else
-        {
-            HandleMovement();
-            HandleJump();
-            HandleAttack();
+            body.velocity = new Vector2(0, body.velocity.y);
+            return;
         }
 
-        if (Time.time - lastAttackTime > comboResetTime && !isAttacking)
-        {
-            ResetCombo();
-        }
+        HandleMovement();
+        HandleJump();
+        HandleAttack();
 
+        // Cập nhật Animator
         if (anim != null)
         {
             anim.SetBool("grounded", grounded);
@@ -94,101 +73,83 @@ public class PlayerMove : MonoBehaviour
         }
     }
 
-    // ================= CHỈNH SỬA DI CHUYỂN =================
     private void HandleMovement()
     {
         float moveInput = 0;
-
+        // Tách biệt phím di chuyển
         if (playerID == 1)
         {
-            // Player 1: A (Trái), D (Phải)
             if (Input.GetKey(KeyCode.A)) moveInput = -1;
             else if (Input.GetKey(KeyCode.D)) moveInput = 1;
         }
-        else if (playerID == 2)
+        else
         {
-            // Player 2: LeftArrow, RightArrow
             if (Input.GetKey(KeyCode.LeftArrow)) moveInput = -1;
             else if (Input.GetKey(KeyCode.RightArrow)) moveInput = 1;
         }
 
-        // Xoay mặt nhân vật
-        if (moveInput != 0)
+        // Quay mặt nhân vật (Chỉ quay khi không đang đánh để tránh lỗi animation)
+        if (moveInput != 0 && !isAttacking)
         {
-            transform.localScale = new Vector3(
-                Mathf.Sign(moveInput) * Mathf.Abs(transform.localScale.x),
-                transform.localScale.y,
-                transform.localScale.z);
+            transform.localScale = new Vector3(moveInput * originalScaleX, transform.localScale.y, transform.localScale.z);
         }
 
+        // Tốc độ di chuyển khi đánh sẽ chậm lại
         float currentSpeed = isAttacking ? speed * attackSpeedMultiplier : speed;
         body.velocity = new Vector2(moveInput * currentSpeed, body.velocity.y);
     }
 
-    // ================= CHỈNH SỬA NHẢY =================
     private void HandleJump()
     {
-        bool jumpKey = false;
-
-        if (playerID == 1) jumpKey = Input.GetKeyDown(KeyCode.W);
-        else if (playerID == 2) jumpKey = Input.GetKeyDown(KeyCode.UpArrow);
-
-        if (jumpKey && grounded)
+        bool jumpKey = (playerID == 1) ? Input.GetKeyDown(KeyCode.W) : Input.GetKeyDown(KeyCode.UpArrow);
+        if (jumpKey && grounded && !isAttacking)
         {
-            Jump();
+            body.velocity = new Vector2(body.velocity.x, jumpForce);
+            grounded = false;
         }
     }
 
-    // ================= CHỈNH SỬA TẤN CÔNG =================
     private void HandleAttack()
     {
-        bool attackKey = false;
+        // Tách biệt phím đánh
+        bool attackKey = (playerID == 1) ? Input.GetKeyDown(KeyCode.J) : Input.GetKeyDown(KeyCode.Keypad1);
 
-        if (playerID == 1)
-            attackKey = Input.GetKeyDown(KeyCode.J);
-        else if (playerID == 2)
-            attackKey = Input.GetKeyDown(KeyCode.Keypad1); // Phím 1 bên NumLock
-
-        if (attackKey && canAttack)
+        if (attackKey && canAttack && !isHurt)
         {
-            Attack();
+            StartCoroutine(AttackCoroutine());
         }
     }
 
-    // Các hàm Action bên dưới (Attack, Jump, Hit, TakeDamage...) giữ nguyên như code của bạn
-    private void Attack()
+    private IEnumerator AttackCoroutine()
     {
-        lastAttackTime = Time.time;
+        canAttack = false;
         isAttacking = true;
-        comboStep = Mathf.Min(comboStep + 1, 3);
-        if (anim != null) anim.SetTrigger("Atk" + comboStep);
-        if (comboStep >= 3) canAttack = false;
-        CancelInvoke(nameof(EndAttack));
-        Invoke(nameof(EndAttack), 0.45f);
+
+        if (anim != null) anim.SetTrigger("Atk1");
+
+        // Đợi đến thời điểm "vung kiếm" trong animation thì mới check damage
+        yield return new WaitForSeconds(0.1f);
+        CheckDamage();
+
+        // Đợi animation kết thúc
+        yield return new WaitForSeconds(0.3f);
+        isAttacking = false;
+        canAttack = true;
     }
 
-    private void Jump()
+    private void CheckDamage()
     {
-        body.velocity = new Vector2(body.velocity.x, jumpForce);
-        grounded = false;
-        jumpCount++;
-    }
-
-    void Hit()
-    {
-        // Tạo vòng tròn ảo để quét kẻ địch
+        // Tạo một vòng tròn va chạm tại điểm attackPoint
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, opponentLayer);
 
         foreach (Collider2D enemy in hitEnemies)
         {
-            // 🔥 Lấy script CharacterStats của đối thủ
-            CharacterStats enemyStats = enemy.GetComponent<CharacterStats>();
+            PlayerMove target = enemy.GetComponent<PlayerMove>();
 
-            if (enemyStats != null)
+            // FIX LỖI TỰ MẤT MÁU: Kiểm tra target khác chính mình (this)
+            if (target != null && target != this)
             {
-                // 🔥 Gây 20 sát thương (bạn có thể đổi số này)
-                enemyStats.TakeDamage(20f);
-                Debug.Log("Đã đánh trúng và trừ máu của: " + enemy.name);
+                target.TakeDamage(25);
             }
         }
     }
@@ -196,31 +157,54 @@ public class PlayerMove : MonoBehaviour
     public void TakeDamage(int damage)
     {
         if (isDead) return;
+
         currentHealth -= damage;
-        isHurt = true;
-        if (anim != null) anim.SetTrigger("Hurt");
-        if (currentHealth <= 0) Die();
-        else Invoke(nameof(EndHurt), 0.3f);
+        if (healthBar != null) healthBar.SetHealth(currentHealth);
+
+        if (currentHealth <= 0)
+        {
+            currentHealth = 0;
+            Die();
+        }
+        else
+        {
+            isHurt = true;
+            if (anim != null) anim.SetTrigger("Hurt");
+            Invoke(nameof(EndHurt), 0.2f);
+        }
     }
 
     private void EndHurt() => isHurt = false;
-    private void Die() { isDead = true; if (anim != null) anim.SetBool("isDead", true); body.velocity = Vector2.zero; body.simulated = false; }
-    private void ResetCombo() { comboStep = 0; canAttack = true; }
-    private void EndAttack() { isAttacking = false; if (comboStep >= 3) ResetCombo(); else canAttack = true; }
-    private void HideSlash() { if (slashObject != null) slashObject.SetActive(false); }
-    private void OnCollisionEnter2D(Collision2D other) { if (other.gameObject.CompareTag("Ground")) { grounded = true; jumpCount = 0; } }
 
-    // Logic AIControl giữ nguyên để tránh lỗi khi chơi SinglePlayer
-    private void AIControl()
+    private void Die()
     {
-        if (opponent == null) return;
-        float direction = Mathf.Sign(opponent.position.x - transform.position.x);
-        if (direction != 0) transform.localScale = new Vector3(direction * Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
-        float currentSpeed = isAttacking ? speed * attackSpeedMultiplier : speed;
-        body.velocity = new Vector2(direction * currentSpeed, body.velocity.y);
-        if (Vector2.Distance(transform.position, opponent.position) < attackRange + 0.6f && canAttack) Attack();
-        if (grounded && Random.value < 0.012f) Jump();
+        if (isDead) return;
+        isDead = true;
+
+        if (anim != null) anim.SetBool("IsDead", true);
+
+        // Vô hiệu hóa vật lý để xác rơi xuống hoặc đứng yên
+        body.velocity = Vector2.zero;
+        body.isKinematic = true;
+        GetComponent<Collider2D>().enabled = false;
+
+        // Gọi BattleManager thông báo người thua
+        if (BattleManager.instance != null)
+        {
+            BattleManager.instance.FinishGame(playerID);
+        }
     }
-   
-    
+
+    private void OnCollisionEnter2D(Collision2D other)
+    {
+        if (other.gameObject.CompareTag("Ground")) grounded = true;
+    }
+
+    // Vẽ vòng tròn phạm vi đánh để dễ căn chỉnh trong Editor
+    private void OnDrawGizmosSelected()
+    {
+        if (attackPoint == null) return;
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(attackPoint.position, attackRange);
+    }
 }

@@ -238,10 +238,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   healthBar: {fileID: 0}
+  damageDelay: 0.15
   isDead: 0
-  slashObject: {fileID: 0}
-  slashSpriteRenderer: {fileID: 0}
-  slashSprites: []
   isAttacking: 0
   isHurt: 0
 --- !u!114 &169433668244651202
