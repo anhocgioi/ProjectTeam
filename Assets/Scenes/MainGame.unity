@@ -692,6 +692,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawnPointP1: {fileID: 354485475}
   spawnPointP2: {fileID: 1983312604}
+  healthBarUI_P1: {fileID: 1084476137}
+  healthBarUI_P2: {fileID: 1423491856}
 --- !u!4 &895790835
 Transform:
   m_ObjectHideFlags: 0
@@ -868,8 +870,8 @@ MonoBehaviour:
   m_Direction: 0
   m_MinValue: 0
   m_MaxValue: 100
-  m_WholeNumbers: 0
-  m_Value: 0
+  m_WholeNumbers: 1
+  m_Value: 100
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -886,7 +888,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slider: {fileID: 1084476136}
-  speed: 5
 --- !u!1 &1126170917
 GameObject:
   m_ObjectHideFlags: 0
@@ -1184,8 +1185,8 @@ MonoBehaviour:
   m_Direction: 0
   m_MinValue: 0
   m_MaxValue: 100
-  m_WholeNumbers: 0
-  m_Value: 0
+  m_WholeNumbers: 1
+  m_Value: 100
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1202,7 +1203,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slider: {fileID: 1423491855}
-  speed: 5
 --- !u!1 &1640221636
 GameObject:
   m_ObjectHideFlags: 0

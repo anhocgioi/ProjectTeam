@@ -19,6 +19,7 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] private Transform attackPoint;
     [SerializeField] private float attackRange = 0.5f;
     [SerializeField] private LayerMask opponentLayer;
+    [SerializeField] public HealthBar healthBar;
 
     public bool isDead = false;
 
@@ -56,6 +57,10 @@ public class PlayerMove : MonoBehaviour
         {
             GameObject playerObj = GameObject.FindWithTag("Player");
             if (playerObj != null) opponent = playerObj.transform;
+        }
+        if (healthBar != null)
+        {
+            healthBar.SetMaxHealth(maxHealth);
         }
     }
 
@@ -169,22 +174,22 @@ public class PlayerMove : MonoBehaviour
         jumpCount++;
     }
 
-    public void Hit()
+    void Hit()
     {
-        if (attackPoint == null) return;
-        Collider2D[] hits = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, opponentLayer);
-        foreach (var hit in hits)
+        // Tạo vòng tròn ảo để quét kẻ địch
+        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, opponentLayer);
+
+        foreach (Collider2D enemy in hitEnemies)
         {
-            PlayerMove target = hit.GetComponent<PlayerMove>();
-            if (target != null && target != this) target.TakeDamage(15);
-        }
-        if (slashObject != null && slashSprites.Length > 0)
-        {
-            int index = Mathf.Clamp(comboStep - 1, 0, slashSprites.Length - 1);
-            slashSpriteRenderer.sprite = slashSprites[index];
-            slashObject.SetActive(true);
-            CancelInvoke(nameof(HideSlash));
-            Invoke(nameof(HideSlash), 0.1f);
+            // 🔥 Lấy script CharacterStats của đối thủ
+            CharacterStats enemyStats = enemy.GetComponent<CharacterStats>();
+
+            if (enemyStats != null)
+            {
+                // 🔥 Gây 20 sát thương (bạn có thể đổi số này)
+                enemyStats.TakeDamage(20f);
+                Debug.Log("Đã đánh trúng và trừ máu của: " + enemy.name);
+            }
         }
     }
 
@@ -216,4 +221,6 @@ public class PlayerMove : MonoBehaviour
         if (Vector2.Distance(transform.position, opponent.position) < attackRange + 0.6f && canAttack) Attack();
         if (grounded && Random.value < 0.012f) Jump();
     }
+   
+    
 }

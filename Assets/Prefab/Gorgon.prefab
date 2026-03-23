@@ -14,9 +14,10 @@ GameObject:
   - component: {fileID: 9137384972499232573}
   - component: {fileID: 8426085960476221714}
   - component: {fileID: -2980299614081270972}
+  - component: {fileID: -4212115116608538191}
   m_Layer: 0
   m_Name: Gorgon
-  m_TagString: Untagged
+  m_TagString: P1
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -33,7 +34,8 @@ Transform:
   m_LocalPosition: {x: 1.34, y: -1.55, z: 0}
   m_LocalScale: {x: 2.616045, y: 2.56882, z: 1.807229}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 835435242718974498}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &4190506377053030781
@@ -199,14 +201,62 @@ MonoBehaviour:
   attackSpeedMultiplier: 0.1
   comboResetTime: 0.6
   maxHealth: 100
-  attackPoint: {fileID: 0}
-  attackRange: 0.5
+  attackPoint: {fileID: 835435242718974498}
+  attackRange: 2
   opponentLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 128
+  healthBar: {fileID: 0}
   isDead: 0
   slashObject: {fileID: 0}
   slashSpriteRenderer: {fileID: 0}
   slashSprites: []
   isAttacking: 0
   isHurt: 0
+--- !u!114 &-4212115116608538191
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3104015672231557336}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 119bcfbd166cea24b9218cc78e708e8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 100
+  currentHealth: 0
+  healthBar: {fileID: 0}
+  playerIndex: 1
+--- !u!1 &3832106471281572232
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 835435242718974498}
+  m_Layer: 0
+  m_Name: AtkPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &835435242718974498
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3832106471281572232}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.329, y: 0.111, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4324887541630896839}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

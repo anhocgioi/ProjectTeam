@@ -15,27 +15,39 @@ public class CharacterStats : MonoBehaviour
             healthBar.SetMaxHealth(maxHealth);
         }
     }
-
+    void InitHealthBar()
+    {
+        if (healthBar != null)
+        {
+            healthBar.SetMaxHealth(maxHealth);
+        }
+    }
     // Hàm gọi khi bị tấn công
     public void TakeDamage(float damage)
     {
         currentHealth -= damage;
-        currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
+        currentHealth = Mathf.Max(currentHealth, 0); // Ép máu không âm
 
-        if (healthBar != null)
-        {
-            healthBar.SetHealth(currentHealth);
-        }
+        if (healthBar != null) healthBar.SetHealth(currentHealth);
 
+        // 🔥 QUAN TRỌNG: Kiểm tra máu ngay khi vừa bị trừ
         if (currentHealth <= 0)
         {
             Die();
         }
     }
+    public int playerIndex; // 1 cho P1, 2 cho P2
 
-    void Die()
+    public void Die()
     {
-        Debug.Log(gameObject.name + " đã gục ngã!");
-        // Thêm hiệu ứng biến mất hoặc kết thúc trận đấu ở đây
+        // Tìm BattleManager trong Scene
+        BattleManager bm = FindObjectOfType<BattleManager>();
+        if (bm != null)
+        {
+            bm.FinishGame(playerIndex); // playerIndex của Player 2 là 2
+        }
+
+        // Tắt nhân vật để không đánh tiếp được nữa
+        gameObject.SetActive(false);
     }
 }
