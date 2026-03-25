@@ -147,7 +147,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!61 &147466625030888947
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -237,10 +237,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   healthBar: {fileID: 0}
-  damageDelay: 0.15
-  attackDuration: 0.4
-  endScreen: {fileID: 0}
-  winText: {fileID: 0}
   isDead: 0
   isAttacking: 0
   isHurt: 0
@@ -258,5 +254,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 100
   currentHealth: 0
+  audioSource: {fileID: 0}
+  hitSound: {fileID: 0}
   healthBar: {fileID: 0}
   playerIndex: 3

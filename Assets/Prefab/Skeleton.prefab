@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 9079008450205410822}
   m_Layer: 0
   m_Name: Skeleton
-  m_TagString: P2
+  m_TagString: Player2
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -199,7 +199,6 @@ MonoBehaviour:
   speed: 6
   jumpForce: 5
   attackSpeedMultiplier: 0.1
-  comboResetTime: 0.6
   maxHealth: 100
   attackPoint: {fileID: 8967090972751304146}
   attackRange: 2
@@ -207,8 +206,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   healthBar: {fileID: 0}
-  damageDelay: 0.15
-  attackDuration: 0.4
   isDead: 0
   isAttacking: 0
   isHurt: 0
@@ -226,6 +223,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 100
   currentHealth: 0
+  audioSource: {fileID: 0}
+  hitSound: {fileID: 0}
   healthBar: {fileID: 0}
   playerIndex: 5
 --- !u!1 &5739795844762691993

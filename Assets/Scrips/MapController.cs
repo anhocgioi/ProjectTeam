@@ -31,6 +31,23 @@ public class MapController : MonoBehaviour
         if (index < 0) index = maps.Length - 1;
         UpdateMapDisplay();
     }
+    public void RandomMap()
+    {
+        if (maps == null || maps.Length <= 1) return;
+        int randomIndex;
+        do
+        {
+            randomIndex = Random.Range(0, maps.Length);
+        }
+        while (randomIndex == index); 
+        index = randomIndex;
+
+       UpdateMapDisplay();
+
+        
+        Debug.Log("Đã Random ra Map số: " + index);
+    }
+
 
     private void UpdateMapDisplay()
     {

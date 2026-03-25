@@ -9,6 +9,8 @@ TagManager:
   - Enermy
   - P1
   - P2
+  - Player1
+  - Player2
   layers:
   - Default
   - TransparentFX

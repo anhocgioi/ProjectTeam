@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class BattleManager : MonoBehaviour
 {
@@ -17,22 +18,38 @@ public class BattleManager : MonoBehaviour
 
     public void FinishGame(int loserID)
     {
+        // Gọi Camera lướt tới người thắng
+        CameraControl cam = FindObjectOfType<CameraControl>();
+        if (cam != null)
+        {
+            int winnerID = (loserID == 1) ? 2 : 1;
+            cam.SetVictoryZoom(winnerID);
+        }
+
         if (gameOverPanel != null)
         {
             gameOverPanel.SetActive(true);
-
             if (winnerText != null)
             {
-                // Nếu Player 1 thua (loserID = 1) thì Player 2 thắng
                 winnerText.text = (loserID == 1) ? "PLAYER 2 WIN!" : "PLAYER 1 WIN!";
             }
 
-            // Dừng thời gian nếu muốn
-             Time.timeScale = 0; 
-        }
-        else
-        {
-            Debug.LogError("Chưa kéo thả GameOverPanel vào BattleManager trên Hierarchy!");
+            // Nếu muốn game dừng hẳn sau khi zoom xong, hãy dùng Invoke sau 2 giây
+            // Invoke("PauseGame", 2f);
         }
     }
-}
+
+    void PauseGame() { Time.timeScale = 0; }
+    public void PlayAgain() // Phải có chữ public này
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        Time.timeScale = 1f;
+    }
+
+    public void BackToMenu() // Phải có chữ public này
+    {
+        SceneManager.LoadScene("MainMenu");
+        Time.timeScale = 1f;
+    }
+    }
+    

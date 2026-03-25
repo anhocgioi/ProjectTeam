@@ -4,6 +4,8 @@ public class CharacterStats : MonoBehaviour
 {
     public float maxHealth = 100f;
     public float currentHealth;
+    public AudioSource audioSource; // Kéo AudioSource của nhân vật vào đây
+    public AudioClip hitSound;
 
     public HealthBar healthBar; // Kéo thanh máu tương ứng vào đây trong Inspector
 
@@ -13,6 +15,10 @@ public class CharacterStats : MonoBehaviour
         if (healthBar != null)
         {
             healthBar.SetMaxHealth(maxHealth);
+        }
+        if (audioSource != null && hitSound != null)
+        {
+            audioSource.PlayOneShot(hitSound);
         }
     }
     void InitHealthBar()

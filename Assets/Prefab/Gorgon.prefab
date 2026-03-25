@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: -4212115116608538191}
   m_Layer: 0
   m_Name: Gorgon
-  m_TagString: P1
+  m_TagString: Player1
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -116,7 +116,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!61 &9137384972499232573
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -206,10 +206,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   healthBar: {fileID: 0}
-  damageDelay: 0.15
-  attackDuration: 0.4
-  endScreen: {fileID: 0}
-  winText: {fileID: 0}
   isDead: 0
   isAttacking: 0
   isHurt: 0
@@ -227,6 +223,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 100
   currentHealth: 0
+  audioSource: {fileID: 0}
+  hitSound: {fileID: 0}
   healthBar: {fileID: 0}
   playerIndex: 1
 --- !u!1 &3832106471281572232
